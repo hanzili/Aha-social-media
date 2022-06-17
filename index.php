@@ -25,9 +25,10 @@ if (isset($_POST['post'])) {
             <textarea name="post_text" id="post_text" placeholder="Hey, <?php echo $user['first_name']?>! What stood-out about today?"></textarea>
             <input type="submit" name="post" id="post_button" value="Post" class="btn btn-warning">
         </form>
+
         <?php
-        $user_obj = new User($con, $userLoggedIn);
-        echo $user_obj->getFirstAndLastName();
+        $post = new Post($con, $userLoggedIn);
+        $post->loadPostsFriends();
         ?>
 
     </div>
