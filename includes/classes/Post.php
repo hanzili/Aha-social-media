@@ -37,7 +37,7 @@ class Post{
 
     public function loadPostsFriends() {
         $str = "";
-        $data = mysqli_query($this->con. "SELECT * FROM posts WHERE deleted='no' ORDER BY id DESC"); // fetch the post in decending order
+        $data = mysqli_query($this->con, "SELECT * FROM posts WHERE deleted='no' ORDER BY id DESC"); // fetch the post in decending order
         while ($row = mysqli_fetch_array($data)) { // get the row line by line
             $id = $row['id'];
             $body = $row['body'];
@@ -60,13 +60,14 @@ class Post{
                 continue; // skip this post if the user is closed
             }
 
-            $user_details_query = mysqli_query($this->con, "SELECT first_name. last_name, profile_pic FROM users WHERE username='$added_by'");
+            $user_details_query = mysqli_query($this->con, "SELECT first_name, last_name, profile_pic FROM users WHERE username='$added_by'");
             $user_row = mysqli_fetch_array($user_details_query);
             $first_name = $user_row['first_name'];
             $last_name = $user_row['last_name'];
             $profile_pic = $user_row['profile_pic'];
 
             //Timeframe
+            $time_message="";
             $date_time_now = date("Y-m-d H:i:s");
             $start_date = new DateTime($date_time);
             $end_date = new DateTime($date_time_now);
@@ -129,21 +130,23 @@ class Post{
                 }
             }
 
-            $str .= "<div class='status_post'>
+            $str .= 
+            "<div class='status_post'>
                         <div class='post_profile_pic'>
                             <img src='$profile_pic' width='50'>
                         </div>
 
                         <div class='posted_by' style='color:#ACACAC;'>
-                            <a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$
-                                time_message
+                            <a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;
+                                $time_message
                         </div>
                         <div id='post_body'>
                             $body
                             <br>
-                        </div>
-
-                    </div>";
+                        </div>                 
+            </div>
+            ";
+            
         }
         echo $str;
 
