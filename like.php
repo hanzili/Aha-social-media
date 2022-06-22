@@ -18,6 +18,7 @@
 	include("includes/classes/User.php");
 	include("includes/classes/Post.php");
 
+	// if the user has logged in
 	if (isset($_SESSION['username'])) {
 		$userLoggedIn = $_SESSION['username'];
 		$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$userLoggedIn'");
@@ -34,15 +35,15 @@
 
 	$get_likes = mysqli_query($con, "SELECT likes, added_by FROM posts WHERE id='$post_id'");
 	$row = mysqli_fetch_array($get_likes);
-	$total_likes = $row['likes']; 
-	$user_liked = $row['added_by'];
+	$total_likes = $row['likes'];  // the total number of likes of the post
+	$user_liked = $row['added_by']; // the user who send this post
 
 	$user_details_query = mysqli_query($con, "SELECT * FROM users WHERE username='$user_liked'");
 	$row = mysqli_fetch_array($user_details_query);
-	$total_user_likes = $row['num_likes'];
+	$total_user_likes = $row['num_likes']; // the total number of likes of the user who send the post
 
 	//Like button
-	if(isset($_POST['like_button'])) {
+	if(isset($_POST['like_button'])) { // if the user like this post
 		$total_likes++;
 		$query = mysqli_query($con, "UPDATE posts SET likes='$total_likes' WHERE id='$post_id'");
 		$total_user_likes++;
@@ -52,7 +53,7 @@
 		//Insert Notification
 	}
 	//Unlike button
-	if(isset($_POST['unlike_button'])) {
+	if(isset($_POST['unlike_button'])) { // if teh user unlike this post
 		$total_likes--;
 		$query = mysqli_query($con, "UPDATE posts SET likes='$total_likes' WHERE id='$post_id'");
 		$total_user_likes--;
@@ -65,31 +66,28 @@
 	$num_rows = mysqli_num_rows($check_query);
 
 	if($num_rows > 0) {
-		echo '<form action="like.php?post_id=' . $post_id . '" method="POST">
-                <span class="like_value">
-					'. $total_likes .' Likes
-				</span>
-				<input type="submit" class="comment_like" name="unlike_button" value="Unlike">
-			</form>
+		echo '
+		<form action="like.php?post_id=' . $post_id . '" method="POST">
+			<span class="like_value">
+				'. $total_likes .' Likes
+			</span>
+			<input type="submit" class="comment_like" name="unlike_button" value="Unlike">
+		</form>
 		';
 	}
 	else {
-		echo '<form action="like.php?post_id=' . $post_id . '" method="POST">
-            <div class="like_wrapper>
-                <span class="like_value">
-                    '. $total_likes .' Likes
-                </span>
-                    <input type="submit" class="comment_like" name="like_button" value="Like">	
-                </form>
-            </div>
+		echo '
+		<form action="like.php?post_id=' . $post_id . '" method="POST">
+			<span class="like_value">
+				'. $total_likes .' Likes
+			</span>
+			<input type="submit" class="comment_like" name="like_button" value="Like">	
+		</form>
 		';
 	}
 
 
 	?>
-
-
-
 
 </body>
 </html>

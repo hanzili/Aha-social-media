@@ -42,6 +42,7 @@ if (isset($_POST['post'])) {
                 var bottomElement = $(".status_post").last();
                 var noMorePosts = $('.posts_area').find('.noMorePosts').val();
                 // isElementInViewport uses getBoundingClientRect(), which requires the HTML DOM object, not the jQuery object. The jQuery equivalent is using [0] as shown below.
+                // when there is no  more posts and the page is at the bottom
                 if (noMorePosts == 'false' && isElementInView(bottomElement[0])) {
                     loadPosts();
                 }

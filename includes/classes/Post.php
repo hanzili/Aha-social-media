@@ -40,6 +40,8 @@ class Post{
         $page = $data['page'];
         $userLoggedIn = $this->user_obj->getUsername();
 
+        // page is the number of page (10 posts for one page)
+        // start is the number of posts to be started
         if ($page == 1) {
             $start = 0;
         }
@@ -53,8 +55,8 @@ class Post{
 
         if (mysqli_num_rows($data_query) > 0) {
         
-            $num_iterations = 0;
-            $count = 1;
+            $num_iterations = 0; // num of iteration (10 posts for each iteration)
+            $count = 1; // number of posts being sent in this iteration
         
             while ($row = mysqli_fetch_array($data_query)) { // get the row line by line
                 $id = $row['id'];
@@ -78,7 +80,7 @@ class Post{
                     continue; // skip this post if the user is closed
                 }
                 $user_logged_obj = new User($this->con, $userLoggedIn);
-                if($user_logged_obj->isFriend($added_by)){
+                if($user_logged_obj->isFriend($added_by)){ // only show the posts if the logged in user is the friend of the user who send post
 
                     if($num_iterations++ < $start)
                         continue;
@@ -98,6 +100,7 @@ class Post{
             ?>
             <script>
                 
+            // this function is trigger once the post is clicked
             function toggle<?php echo $id; ?>() {
                 var target = $(event.target);
 					if (!target.is("a")) { // if a link is clicked, it does not affect showing or hiding the comment section
@@ -179,6 +182,7 @@ class Post{
                         }
                     }
 
+                    // html for a post
                     $str .= 
                             "
                             <div class='status_post' onClick='javascript:toggle$id()'>
@@ -209,9 +213,11 @@ class Post{
             }
 
             if($count > $limit) {
+                // there is more posts to load
                 $str .= "<input type='hidden' class='nextPage' value='" . ($page + 1) . "'>
                 <input type='hidden' class='noMorePosts' value='false'>";
             } else {
+                // no more posts to be loaded
                 $str .= "<input type='hidden' class='noMorePosts' value='true'><p style='text-align: centre;'> No
                     more posts to show! </p>";
             }
