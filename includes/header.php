@@ -29,6 +29,7 @@ if (isset($_SESSION['username'])) {
     <script src="https://kit.fontawesome.com/89dfc376ef.js" crossorigin="anonymous"></script>
 
     <!--css-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,7 +60,7 @@ if (isset($_SESSION['username'])) {
                 <a class="nav-link" href="#">Notificatoin <i class="fa-solid fa-bell"></i></a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Friends <i class="fa-solid fa-user-group"></i></a>
+                <a class="nav-link" href="requests.php">Friends <i class="fa-solid fa-user-group"></i></a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="#">Setting <i class="fa-solid fa-gear"></i></a>
