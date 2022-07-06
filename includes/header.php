@@ -25,7 +25,11 @@ if (isset($_SESSION['username'])) {
 
     <!--javascript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/demo.js"></script>
+    <script src="assets/js/bootbox.js"></script>
     <script src="https://kit.fontawesome.com/89dfc376ef.js" crossorigin="anonymous"></script>
 
     <!--css-->

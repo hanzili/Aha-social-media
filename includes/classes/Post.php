@@ -68,9 +68,9 @@ class Post{
                     $user_to = "";
                 } else { 
                     // when the add_by and user_to are two different users 
-                    $user_to_obj = new User($con, $row['user_to']); // make access to the user that the post is sent to
+                    $user_to_obj = new User($this->con, $row['user_to']); // make access to the user that the post is sent to
                     $user_to_name = $user_to_obj->getFirstAndLastName();
-                    $user_to = " to <a href='" . $row['user_to'] . "'>" . $user_to_name . "</a>"; // create a link
+                    $user_to = "  to  <a href='" . $row['user_to'] . "'>" . $user_to_name . "</a>"; // create a link
                 }
 
                 $added_by_obj = new User($this->con, $added_by); // get the user that add this post
@@ -91,6 +91,11 @@ class Post{
                     } else {
                         $count++;
                     }
+
+                    if($userLoggedIn == $added_by)
+						$delete_button = "<button class='delete_button btn-danger' id='post$id'>X</button>";
+					else 
+						$delete_button = "";
 
                     $user_details_query = mysqli_query($this->con, "SELECT first_name, last_name, profile_pic FROM users WHERE username='$added_by'");
                     $user_row = mysqli_fetch_array($user_details_query);
@@ -192,6 +197,7 @@ class Post{
 
                                 <div class='posted_by' style='color:#ACACAC;'>
                                     <a href='$added_by'> $first_name $last_name </a> $user_to &nbsp;&nbsp;&nbsp;&nbsp;$time_message
+                                    $delete_button
                                 </div>
                                 <div id='post_body'>
                                     $body
@@ -212,6 +218,24 @@ class Post{
                 }
             }
 
+            ?>
+            <script>
+                $(document).ready(function() {
+                    $('#post<?php echo $id; ?>').on('click', function() {
+                        console.log("here");
+                        bootbox.confirm("Are you sure you want to delete this post?", function(result) {
+                            $.post("includes/form_handlers/delete_post.php?post_id=<?php echo $id; ?>", {result:result});
+                            console.log("aha");
+                            // send the result of the user's choice to the handling page
+                            if(result)
+                                location.reload();
+                        });
+                    });
+                });
+            </script>
+
+			<?php
+
             if($count > $limit) {
                 // there is more posts to load
                 $str .= "<input type='hidden' class='nextPage' value='" . ($page + 1) . "'>
@@ -221,10 +245,8 @@ class Post{
                 $str .= "<input type='hidden' class='noMorePosts' value='true'><p style='text-align: centre;'> No
                     more posts to show! </p>";
             }
-
         }
         echo $str;
-
     }
 }
 
