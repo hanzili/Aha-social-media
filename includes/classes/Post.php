@@ -216,7 +216,7 @@ class Post{
                             <hr>
                             ";
                 }
-            }
+            
 
             ?>
             <script>
@@ -235,7 +235,7 @@ class Post{
             </script>
 
 			<?php
-
+            }
             if($count > $limit) {
                 // there is more posts to load
                 $str .= "<input type='hidden' class='nextPage' value='" . ($page + 1) . "'>
